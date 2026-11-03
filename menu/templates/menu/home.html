@@ -1,10 +1,26 @@
 {% extends 'menu/base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="p-5 mb-4 bg-white rounded-3 shadow-sm text-center">
     <h1 class="display-5 fw-bold text-dark">Bienvenido al Sistema de Gestión del Restaurante</h1>
     <p class="fs-4 text-muted mt-3">Administra los platos de tu carta de forma rápida y eficiente.</p>
+    
+    <!-- Galería de imágenes del restaurante -->
+    <div class="row mt-4 mb-4">
+        <div class="col-md-4 mb-3">
+            <img src="{% static 'menu/photo-1544025162-d76694265947.jpg' %}" class="img-fluid rounded shadow-sm" alt="Plato Gourmet" style="height: 200px; object-fit: cover; width: 100%;">
+        </div>
+        <div class="col-md-4 mb-3">
+            <img src="{% static 'menu/photo-1517248135467-4c7edcad34c4.jpg' %}" class="img-fluid rounded shadow-sm" alt="Local del Restaurante" style="height: 200px; object-fit: cover; width: 100%;">
+        </div>
+        <div class="col-md-4 mb-3">
+            <img src="{% static 'menu/photo-1555396273-367ea4eb4db5.jpg' %}" class="img-fluid rounded shadow-sm" alt="Menú y Platos" style="height: 200px; object-fit: cover; width: 100%;">
+        </div>
+    </div>
+
     <hr class="my-4">
+    
     {% if user.is_authenticated %}
     <a class="btn btn-primary btn-lg me-2 mb-2" href="{% url 'lista_platos' %}" role="button">Ver Carta Completa</a>
     <a class="btn btn-success btn-lg mb-2" href="{% url 'crear_plato' %}" role="button">Agregar Nuevo Plato</a>

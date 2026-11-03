@@ -1,0 +1,48 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Listado de Platos</h2>
+    <a href="{% url 'crear_plato' %}" class="btn btn-success">+ Agregar Plato</a>
+</div>
+
+<div class="table-responsive bg-white rounded shadow-sm p-3">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for plato in platos %}
+            <tr>
+                <td class="fw-bold">{{ plato.nombre }}</td>
+                <td>{{ plato.categoria|default:"—" }}</td>
+                <td>{{ plato.descripcion }}</td>
+                <td>${{ plato.precio|stringformat:"d" }}</td>
+                <td>
+                    {% if plato.disponible %}
+                        <span class="badge bg-success">Disponible</span>
+                    {% else %}
+                        <span class="badge bg-danger">Agotado</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <a href="{% url 'editar_plato' plato.pk %}" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="{% url 'eliminar_plato' plato.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">No hay platos registrados actualmente.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm text-center">
+    <h1 class="display-5 fw-bold text-dark">Bienvenido al Sistema de Gestión del Restaurante</h1>
+    <p class="fs-4 text-muted mt-3">Administra los platos de tu carta de forma rápida y eficiente.</p>
+    <hr class="my-4">
+    {% if user.is_authenticated %}
+    <a class="btn btn-primary btn-lg me-2 mb-2" href="{% url 'lista_platos' %}" role="button">Ver Carta Completa</a>
+    <a class="btn btn-success btn-lg mb-2" href="{% url 'crear_plato' %}" role="button">Agregar Nuevo Plato</a>
+    {% else %}
+    <a class="btn btn-primary btn-lg me-2 mb-2" href="{% url 'login' %}" role="button">Iniciar sesión</a>
+    <a class="btn btn-outline-success btn-lg mb-2" href="{% url 'registro' %}" role="button">Crear cuenta</a>
+    {% endif %}
+</div>
+{% endblock %}

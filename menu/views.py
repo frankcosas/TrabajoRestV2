@@ -1,25 +1,21 @@
 from django.contrib import messages
-<<<<<<< HEAD
 from django.contrib.auth import login, logout as auth_logout
-from django.contrib.auth.views import LoginView
-from rest_framework.authtoken.models import Token
-=======
-from django.contrib.auth import login
->>>>>>> e876e14be8b9edca9cbb654dc0e4115987653809
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.shortcuts import get_object_or_404, redirect, render
+from rest_framework.authtoken.models import Token
 
 from .forms import PlatoForm, RegistroForm
 from .models import Plato
 
 
-<<<<<<< HEAD
 # Inicio de sesión web: autentica con Django y genera/entrega el token REST.
 class LoginConTokenView(LoginView):
     template_name = 'registration/login.html'
 
     def form_valid(self, form):
         response = super().form_valid(form)
+        # Genera un token o recupera el existente si ya lo tenía
         token, _ = Token.objects.get_or_create(user=form.get_user())
         # Se guarda en la sesión del usuario y se expone al frontend desde base.html.
         self.request.session['api_token'] = token.key
@@ -35,8 +31,6 @@ def logout_usuario(request):
     return redirect('home')
 
 
-=======
->>>>>>> e876e14be8b9edca9cbb654dc0e4115987653809
 # Página principal (Home)
 def home(request):
     return render(request, 'menu/home.html')
@@ -51,11 +45,8 @@ def registro(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-<<<<<<< HEAD
             token, _ = Token.objects.get_or_create(user=user)
             request.session['api_token'] = token.key
-=======
->>>>>>> e876e14be8b9edca9cbb654dc0e4115987653809
             messages.success(request, f"Cuenta creada. ¡Bienvenido, {user.username}!")
             return redirect('lista_platos')
     else:

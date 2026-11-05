@@ -1,0 +1,35 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white"><h4 class="mb-0">Editar Plato: {{ plato.nombre }}</h4></div>
+            <div class="card-body">
+{% if form.errors %}
+<div class="alert alert-danger">
+    <ul class="mb-0">
+        {% for field in form %}{% for error in field.errors %}
+        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+        {% endfor %}{% endfor %}
+        {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+    </ul>
+</div>
+{% endif %}
+<form method="POST">
+    {% csrf_token %}
+    <div class="mb-3"><label class="form-label fw-bold" for="{{ form.nombre.id_for_label }}">Nombre del Plato</label>{{ form.nombre }}</div>
+    <div class="mb-3"><label class="form-label fw-bold" for="{{ form.descripcion.id_for_label }}">Descripción</label>{{ form.descripcion }}</div>
+    <div class="mb-3"><label class="form-label fw-bold" for="{{ form.precio.id_for_label }}">Precio ($)</label>{{ form.precio }}</div>
+    <div class="mb-3"><label class="form-label fw-bold" for="{{ form.categoria.id_for_label }}">Categoría</label>{{ form.categoria }}</div>
+    <div class="mb-3 form-check">{{ form.disponible }}<label class="form-check-label fw-bold" for="{{ form.disponible.id_for_label }}">Disponible</label></div>
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'lista_platos' %}" class="btn btn-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Actualizar Cambios</button>
+    </div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

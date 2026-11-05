@@ -1,0 +1,57 @@
+{% extends 'menu/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Forzar que el contenedor principal ocupe toda la pantalla y la imagen sea de fondo total */
+    .hero-fullscreen {
+        position: relative;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        min-height: 85vh;
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('{% static "menu/photo-1517248135467-4c7edcad34c4.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 1rem;
+        margin-top: -1.5rem; /* Ajuste para pegar al menú superior */
+    }
+
+    /* Cuadro translúcido elegante para que el contenido resalte sin ocultar del todo el fondo */
+    .contenido-caja {
+        background: rgba(0, 0, 0, 0.65); /* Fondo oscuro semitransparente */
+        backdrop-filter: blur(5px); /* Efecto difuminado moderno estilo vidrio */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        padding: 3rem;
+        max-width: 800px;
+        width: 100%;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+</style>
+
+<div class="hero-fullscreen">
+    <div class="contenido-caja text-center text-white">
+        <h1 class="display-5 fw-bold mb-3">Bienvenido al Sistema de Gestión del Restaurante</h1>
+        <p class="fs-5 text-light mb-4">Administra los platos de tu carta de forma rápida y eficiente.</p>
+        
+        <hr class="w-50 mx-auto my-4 border-light opacity-50">
+        
+        <div>
+            {% if user.is_authenticated %}
+            <a class="btn btn-light btn-lg me-2 mb-2 fw-semibold text-dark px-4" href="{% url 'lista_platos' %}" role="button">Ver Carta Completa</a>
+            <a class="btn btn-success btn-lg mb-2 fw-semibold px-4" href="{% url 'crear_plato' %}" role="button">Agregar Nuevo Plato</a>
+            {% else %}
+            <a class="btn btn-light btn-lg me-2 mb-2 fw-semibold text-dark px-4" href="{% url 'login' %}" role="button">Iniciar sesión</a>
+            <a class="btn btn-outline-light btn-lg mb-2 fw-semibold px-4" href="{% url 'registro' %}" role="button">Crear cuenta</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

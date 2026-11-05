@@ -1,0 +1,110 @@
+{% extends 'menu/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('{% static "menu/gestion de platos.png" %}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .list-container {
+        padding: 3rem 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .list-card {
+        background: rgba(20, 20, 20, 0.92);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+        color: #fff;
+        max-width: 1000px;
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .list-card h2 {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    /* Estilos para forzar contraste en la tabla y que el texto no se pierda */
+    .table-dark-custom {
+        background-color: rgba(30, 30, 30, 0.85) !important;
+        color: #ffffff !important;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .table-dark-custom th {
+        background-color: rgba(15, 15, 15, 0.95) !important;
+        color: #ffffff !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .table-dark-custom td {
+        background-color: transparent !important;
+        color: #e0e0e0 !important;
+        border-color: rgba(255, 255, 255, 0.1);
+        vertical-align: middle;
+    }
+</style>
+
+<div class="list-container">
+    <div class="list-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Listado de Platos</h2>
+            <a href="{% url 'crear_plato' %}" class="btn btn-success fw-bold px-4">+ Agregar Plato</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-dark-custom align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plato in platos %}
+                    <tr>
+                        <td class="fw-bold text-white">{{ plato.nombre }}</td>
+                        <td>{{ plato.categoria|default:"Sin categoría" }}</td>
+                        <td>{{ plato.descripcion }}</td>
+                        <td class="fw-bold text-warning">${{ plato.precio }}</td>
+                        <td>
+                            {% if plato.disponible %}
+                                <span class="badge bg-success">Disponible</span>
+                            {% else %}
+                                <span class="badge bg-danger">No disponible</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'editar_plato' plato.id %}" class="btn btn-sm btn-warning fw-semibold text-dark me-1">Editar</a>
+                            <a href="{% url 'eliminar_plato' plato.id %}" class="btn btn-sm btn-danger fw-semibold">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-light py-4">No hay platos registrados actualmente.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

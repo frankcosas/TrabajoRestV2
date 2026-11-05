@@ -1,48 +1,112 @@
 {% extends 'menu/base.html' %}
+{% load static %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Listado de Platos</h2>
-    <a href="{% url 'crear_plato' %}" class="btn btn-success">+ Agregar Plato</a>
-</div>
+<style>
+    /* Forzar que el cuerpo y la página tengan la imagen de fondo cubriendo todo */
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "menu/gestion de platos.png" %}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+        margin: 0;
+    }
 
-<div class="table-responsive bg-white rounded shadow-sm p-3">
-    <table class="table table-hover align-middle">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Estado</th>
-                <th class="text-center">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for plato in platos %}
-            <tr>
-                <td class="fw-bold">{{ plato.nombre }}</td>
-                <td>{{ plato.categoria|default:"—" }}</td>
-                <td>{{ plato.descripcion }}</td>
-                <td>${{ plato.precio|stringformat:"d" }}</td>
-                <td>
-                    {% if plato.disponible %}
-                        <span class="badge bg-success">Disponible</span>
-                    {% else %}
-                        <span class="badge bg-danger">Agotado</span>
-                    {% endif %}
-                </td>
-                <td class="text-center">
-                    <a href="{% url 'editar_plato' plato.pk %}" class="btn btn-sm btn-primary">Editar</a>
-                    <a href="{% url 'eliminar_plato' plato.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="6" class="text-center text-muted">No hay platos registrados actualmente.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    /* Contenedor principal de la tabla con diseño de tarjeta translúcida */
+    .list-container {
+        padding: 3rem 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .list-card {
+        background: rgba(20, 20, 20, 0.88);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+        color: #fff;
+        max-width: 1000px;
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .list-card h2 {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    /* Estilos personalizados para que la tabla combine con el modo oscuro */
+    .list-card .table {
+        color: #fff;
+        background-color: transparent;
+    }
+
+    .list-card .table thead {
+        background-color: rgba(30, 30, 30, 0.95);
+        color: #fff;
+    }
+
+    .list-card .table tbody tr {
+        background-color: rgba(40, 40, 40, 0.7);
+        color: #fff;
+    }
+
+    .list-card .table td, .list-card .table th {
+        border-color: rgba(255, 255, 255, 0.1);
+        vertical-align: middle;
+    }
+</style>
+
+<div class="list-container">
+    <div class="list-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Listado de Platos</h2>
+            <a href="{% url 'crear_plato' %}" class="btn btn-success fw-bold px-4">+ Agregar Plato</a>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plato in platos %}
+                    <tr>
+                        <td class="fw-bold text-white">{{ plato.nombre }}</td>
+                        <td>{{ plato.categoria }}</td>
+                        <td>{{ plato.descripcion }}</td>
+                        <td>${{ plato.precio }}</td>
+                        <td>
+                            {% if plato.disponible %}
+                                <span class="badge bg-success">Disponible</span>
+                            {% else %}
+                                <span class="badge bg-danger">No disponible</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-sm btn-warning fw-semibold text-dark">Editar</a>
+                            <a href="#" class="btn btn-sm btn-danger fw-semibold">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-light py-4">No hay platos registrados actualmente.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

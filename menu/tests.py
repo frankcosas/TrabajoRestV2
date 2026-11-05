@@ -27,9 +27,12 @@ class AutenticacionWebTests(TestCase):
         self.assertContains(r, 'incorrectos')
         r = self.client.post(reverse('login'), {'username': 'chef', 'password': 'ClaveSegura123'})
         self.assertRedirects(r, reverse('lista_platos'))
+<<<<<<< HEAD
         token = Token.objects.get(user=self.user)
         self.assertEqual(self.client.session.get('api_token'), token.key)
         self.assertContains(self.client.get(reverse('lista_platos')), 'GOURMET_API_TOKEN')
+=======
+>>>>>>> e876e14be8b9edca9cbb654dc0e4115987653809
 
     def test_logout(self):
         self.client.login(username='chef', password='ClaveSegura123')
@@ -42,9 +45,13 @@ class AutenticacionWebTests(TestCase):
             'username': 'nuevo', 'email': 'nuevo@ejemplo.cl',
             'password1': 'OtraClave12345', 'password2': 'OtraClave12345'})
         self.assertRedirects(r, reverse('lista_platos'))
+<<<<<<< HEAD
         nuevo = User.objects.get(username='nuevo')
         self.assertTrue(Token.objects.filter(user=nuevo).exists())
         self.assertEqual(self.client.session.get('api_token'), Token.objects.get(user=nuevo).key)
+=======
+        self.assertTrue(User.objects.filter(username='nuevo').exists())
+>>>>>>> e876e14be8b9edca9cbb654dc0e4115987653809
 
 
 class CrudWebTests(TestCase):

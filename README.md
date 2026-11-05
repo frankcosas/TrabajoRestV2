@@ -14,8 +14,11 @@ Credenciales de MySQL por defecto: usuario `root`, sin contraseña. Se pueden ca
 `/login/`, `/logout/`, `/registro/` y CRUD de platos en `/platos/` (requiere sesión iniciada).
 
 ## API REST (JSON, autenticación por token)
+<<<<<<< HEAD
 Al iniciar sesión desde `/login/` o crear una cuenta desde `/registro/`, Django genera (o reutiliza) el token del usuario y lo guarda en su sesión. El frontend lo recibe como `window.GOURMET_API_TOKEN`; para llamar a endpoints protegidos desde JavaScript utiliza `gourmetApiFetch(url, options)`, que agrega automáticamente `Authorization: Token <token>`.
 
+=======
+>>>>>>> e876e14be8b9edca9cbb654dc0e4115987653809
 1. Obtener token: `POST /api/token/` con `{"username": "...", "password": "..."}` → `{"token": "..."}`
 2. Enviarlo en cada solicitud: cabecera `Authorization: Token <token>`
 

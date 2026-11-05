@@ -3,9 +3,8 @@
 
 {% block content %}
 <style>
-    /* Forzar que el cuerpo y la página tengan la imagen de fondo cubriendo todo */
     body {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "menu/gestion de platos.png" %}');
+        background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)), url('{% static "menu/gestion de platos.png" %}');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -14,7 +13,6 @@
         margin: 0;
     }
 
-    /* Contenedor principal de la tabla con diseño de tarjeta translúcida */
     .list-container {
         padding: 3rem 1rem;
         display: flex;
@@ -23,7 +21,7 @@
     }
 
     .list-card {
-        background: rgba(20, 20, 20, 0.88);
+        background: rgba(20, 20, 20, 0.92);
         backdrop-filter: blur(8px);
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 12px;
@@ -39,23 +37,23 @@
         font-weight: bold;
     }
 
-    /* Estilos personalizados para que la tabla combine con el modo oscuro */
-    .list-card .table {
-        color: #fff;
-        background-color: transparent;
+    /* Estilos para forzar contraste en la tabla y que el texto no se pierda */
+    .table-dark-custom {
+        background-color: rgba(30, 30, 30, 0.85) !important;
+        color: #ffffff !important;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
-    .list-card .table thead {
-        background-color: rgba(30, 30, 30, 0.95);
-        color: #fff;
+    .table-dark-custom th {
+        background-color: rgba(15, 15, 15, 0.95) !important;
+        color: #ffffff !important;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.2);
     }
 
-    .list-card .table tbody tr {
-        background-color: rgba(40, 40, 40, 0.7);
-        color: #fff;
-    }
-
-    .list-card .table td, .list-card .table th {
+    .table-dark-custom td {
+        background-color: transparent !important;
+        color: #e0e0e0 !important;
         border-color: rgba(255, 255, 255, 0.1);
         vertical-align: middle;
     }
@@ -69,7 +67,7 @@
         </div>
 
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
+            <table class="table table-hover table-dark-custom align-middle mb-0">
                 <thead>
                     <tr>
                         <th>Nombre</th>
@@ -77,16 +75,16 @@
                         <th>Descripción</th>
                         <th>Precio</th>
                         <th>Estado</th>
-                        <th>Acciones</th>
+                        <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for plato in platos %}
                     <tr>
                         <td class="fw-bold text-white">{{ plato.nombre }}</td>
-                        <td>{{ plato.categoria }}</td>
+                        <td>{{ plato.categoria|default:"Sin categoría" }}</td>
                         <td>{{ plato.descripcion }}</td>
-                        <td>${{ plato.precio }}</td>
+                        <td class="fw-bold text-warning">${{ plato.precio }}</td>
                         <td>
                             {% if plato.disponible %}
                                 <span class="badge bg-success">Disponible</span>
@@ -94,9 +92,9 @@
                                 <span class="badge bg-danger">No disponible</span>
                             {% endif %}
                         </td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-warning fw-semibold text-dark">Editar</a>
-                            <a href="#" class="btn btn-sm btn-danger fw-semibold">Eliminar</a>
+                        <td class="text-center">
+                            <a href="{% url 'editar_plato' plato.id %}" class="btn btn-sm btn-warning fw-semibold text-dark me-1">Editar</a>
+                            <a href="{% url 'eliminar_plato' plato.id %}" class="btn btn-sm btn-danger fw-semibold">Eliminar</a>
                         </td>
                     </tr>
                     {% empty %}
